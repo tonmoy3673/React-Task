@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className="footer p-10 bg-base-200 text-center">
       <nav className="mx-auto">
         <header className="footer-title">University</header>
-        <p>Branding</p>
+        <p>Manarat International University,Dhaka</p>
       </nav>
       <nav>
         <header className="footer-title">Subject</header>
