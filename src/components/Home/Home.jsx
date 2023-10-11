@@ -56,8 +56,11 @@ const Home = () => {
       {/* ===================== side bar ====================== */}
       <div className="grid grid-cols-1 py-12 px-12">
         <div className="text-start">
-          <div className="dropdown dropdown-right">
-            <label tabIndex={0} className="btn m-1">
+          <div className="dropdown dropdown-right ">
+            <label
+              tabIndex={0}
+              className="btn m-1 bg-primary text-white hover:bg-primary"
+            >
               React
             </label>
             <ul
@@ -85,8 +88,8 @@ const Home = () => {
           )}
           {isVisible == "form" && (
             <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-              <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">
-                User Status
+              <h2 className="text-2xl font-semibold text-gray-700 capitalize dark:text-white">
+                User Registration
               </h2>
               {/* =========== User Form =========== */}
               <UserForm />
