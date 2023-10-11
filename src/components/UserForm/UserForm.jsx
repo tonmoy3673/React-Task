@@ -32,9 +32,6 @@ const UserForm = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // You can access the form data in the `inputData` object.
-    // Perform any validation or submission logic here.
-
     console.log("Form data:", inputData);
   };
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import UserForm from "../UserForm/UserForm";
 import UserList from "../UserList/UserList";
 import Counter from "../Counter/Counter";
+import Footer from "../Footer/Footer";
 
 const Home = () => {
   const [isVisible, setVisible] = useState("counter");
@@ -9,8 +10,8 @@ const Home = () => {
   return (
     <div>
       {/* ================= NavBar=================== */}
-      <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
-        <div className="container flex justify-between h-16 mx-auto">
+      <header className="p-8 mx-auto w-full dark:bg-gray-800 dark:text-gray-100">
+        <div className="container flex justify-center h-16 mx-auto">
           <ul className="items-stretch hidden space-x-3 lg:flex">
             <li className="flex">
               <a
@@ -53,7 +54,7 @@ const Home = () => {
       </header>
 
       {/* ===================== side bar ====================== */}
-      <div className="grid grid-cols-1 py-12">
+      <div className="grid grid-cols-1 py-12 px-12">
         <div className="text-start">
           <div className="dropdown dropdown-right">
             <label tabIndex={0} className="btn m-1">
@@ -99,21 +100,7 @@ const Home = () => {
         </div>
       </div>
       {/* ============== Footer =================== */}
-      <footer className="footer p-10 bg-base-200 text-center">
-        <nav className="mx-auto">
-          <header className="footer-title">University</header>
-          <p>Branding</p>
-        </nav>
-        <nav>
-          <header className="footer-title">Subject</header>
-          <p>Computer Science Engineering</p>
-        </nav>
-        <nav>
-          <header className="footer-title">Passing Year</header>
-          <p>2023</p>
-        </nav>
-      </footer>
-
+      <Footer />
       {/* ============== end of homePage =========== */}
     </div>
   );
