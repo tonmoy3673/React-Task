@@ -1,10 +1,10 @@
 import { useState } from "react";
 import UserForm from "../UserForm/UserForm";
 import UserList from "../UserList/UserList";
+import Counter from "../Counter/Counter";
 
 const Home = () => {
   const [isVisible, setVisible] = useState("counter");
-  const [count, setCount] = useState(0);
 
   return (
     <div>
@@ -77,14 +77,9 @@ const Home = () => {
         </div>
         <div className="h-screen">
           {isVisible == "counter" && (
+            // =========== Counter ==========//
             <div>
-              <h3> Counter : {count}</h3>
-              <button onClick={() => setCount(count + 1)}>
-                Increase Count
-              </button>
-              <button onClick={() => setCount(count - 1)}>
-                Decrease Count
-              </button>
+              <Counter />
             </div>
           )}
           {isVisible == "form" && (
