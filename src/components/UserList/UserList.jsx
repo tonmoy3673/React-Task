@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [isUsersLoading, setIsUsersLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [searchItem, setSearchItem] = useState("");
   const lastIndex = page * 10;
   const firstIndex = lastIndex - 10;
-  const currentIndex = users.slice(firstIndex, lastIndex);
-  const [searchTerm, setSearchTerm] = useState("");
+  const currentIndex = filteredUsers.slice(firstIndex, lastIndex);
+
   const pagination = (pageNumber) => {
     setPage(pageNumber);
   };
@@ -22,15 +24,45 @@ const UserList = () => {
       setSortKey(key);
       setSortOrder("asc");
     }
-    const sortedUsers = [...users].sort((a, b) => {
-      if (sortOrder === "asc") {
-        return a[key] < b[key] ? -1 : 1;
+
+    const sortedUsers = [...filteredUsers].sort((a, b) => {
+      console.log(key);
+      if (key === "name.first" || key === "name.last") {
+        const nameA = key === "name.first" ? a.name.first : a.name.last;
+        const nameB = key === "name.first" ? b.name.first : b.name.last;
+
+        if (sortOrder === "asc") {
+          return nameA < nameB ? -1 : 1;
+        } else {
+          return nameA > nameB ? -1 : 1;
+        }
       } else {
-        return a[key] > b[key] ? -1 : 1;
+        if (sortOrder === "asc") {
+          return a[key] < b[key] ? -1 : 1;
+        } else {
+          return a[key] > b[key] ? -1 : 1;
+        }
       }
     });
 
-    setUsers(sortedUsers);
+    setFilteredUsers(sortedUsers);
+  };
+
+  const handleSearchButton = (event) => {
+    const searchItem = event.target.value.toLowerCase();
+    setSearchItem(searchItem);
+
+    const filteredUsers = users.filter((user) => {
+      return (
+        user.name.first.toLowerCase().includes(searchItem) ||
+        user.name.last.toLowerCase().includes(searchItem) ||
+        user.email.toLowerCase().includes(searchItem) ||
+        user.gender.toLowerCase().includes(searchItem)
+      );
+    });
+
+    setFilteredUsers(filteredUsers);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -42,6 +74,7 @@ const UserList = () => {
         const data = await res.json();
         if (data?.results?.length > 0) {
           setUsers(data.results);
+          setFilteredUsers(data.results);
         }
       } catch (error) {
         if (error) {
@@ -54,28 +87,31 @@ const UserList = () => {
 
     displayUser();
   }, []);
+
   if (isUsersLoading) {
-    return <p> Loading ... </p>;
+    return <p>Loading ...</p>;
   }
   if (isError) {
-    return <p> Somethings Went Wrong!! </p>;
+    return <p>Something Went Wrong!!</p>;
   }
+
   return (
     <div>
       <div>
         <h2 className="text-2xl font-semibold text-gray-700 capitalize dark:text-white">
-          {" "}
-          User List Table{" "}
+          User List Table
         </h2>
         <div>
           <div className="mb-3 flex justify-end">
-            <div className=" mb-4 flex w-4/12 flex-wrap items-stretch">
+            <div className="mb-4 flex w-4/12 flex-wrap items-stretch">
               <input
                 type="search"
                 className="relative m-0 -mr-0.5 block min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
                 placeholder="Search"
                 aria-label="Search"
                 aria-describedby="button-addon1"
+                value={searchItem}
+                onChange={handleSearchButton}
               />
 
               <button
@@ -115,27 +151,25 @@ const UserList = () => {
           </thead>
           <tbody>
             {currentIndex?.map((user, index) => (
-              <>
-                <tr key={index + 1}>
-                  <th>{index + 1}</th>
-                  <td>
-                    {user?.name?.title +
-                      " " +
-                      user?.name?.first +
-                      " " +
-                      user?.name?.last}
-                  </td>
-                  <td>{user.email}</td>
-                  <td>{user.gender}</td>
-                  <td>{user.phone}</td>
-                </tr>
-              </>
+              <tr key={index + 1}>
+                <th>{index + 1}</th>
+                <td>
+                  {user?.name?.title +
+                    " " +
+                    user?.name?.first +
+                    " " +
+                    user?.name?.last}
+                </td>
+                <td>{user.email}</td>
+                <td>{user.gender}</td>
+                <td>{user.phone}</td>
+              </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="text-end ">
-        {Array.from({ length: Math.ceil(users.length / 10) }).map(
+      <div className="text-end">
+        {Array.from({ length: Math.ceil(filteredUsers.length / 10) }).map(
           (_, index) => (
             <button
               className={`btn btn-xs mx-2 ${
@@ -154,3 +188,4 @@ const UserList = () => {
 };
 
 export default UserList;
+``;
