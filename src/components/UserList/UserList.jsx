@@ -4,7 +4,15 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const [isUsersLoading, setIsUsersLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  //   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+
+  const lastIndex = page * 10;
+  const firstIndex = lastIndex - 10;
+  const currentIndex = users.slice(firstIndex, lastIndex);
+
+  const pagination = (pageNumber) => {
+    setPage(pageNumber);
+  };
 
   useEffect(() => {
     setIsUsersLoading(true);
@@ -36,10 +44,10 @@ const UserList = () => {
   return (
     <div>
       <div>
-        <h2> User List </h2>
+        <h2 className="text-2xl font-semibold"> User List Table </h2>
         <div>
           <div className="mb-3 flex justify-end">
-            <div className="relative mb-4 flex w-4/12 flex-wrap items-stretch">
+            <div className=" mb-4 flex w-4/12 flex-wrap items-stretch">
               <input
                 type="search"
                 className="relative m-0 -mr-0.5 block min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
@@ -84,7 +92,7 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.slice(0, 10).map((user, index) => (
+            {currentIndex?.map((user, index) => (
               <>
                 <tr key={index + 1}>
                   <th>{index + 1}</th>
@@ -103,6 +111,21 @@ const UserList = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="mx-auto">
+        {Array.from({ length: Math.ceil(users.length / 10) }).map(
+          (_, index) => (
+            <button
+              className={`btn btn-xs mx-2 ${
+                page === index + 1 ? "bg-primary" : "bg-white"
+              }`}
+              onClick={() => pagination(index + 1)}
+              key={index}
+            >
+              {index + 1}
+            </button>
+          )
+        )}
       </div>
     </div>
   );
