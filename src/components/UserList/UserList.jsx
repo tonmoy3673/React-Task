@@ -5,13 +5,32 @@ const UserList = () => {
   const [isUsersLoading, setIsUsersLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
-
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
   const lastIndex = page * 10;
   const firstIndex = lastIndex - 10;
   const currentIndex = users.slice(firstIndex, lastIndex);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const pagination = (pageNumber) => {
     setPage(pageNumber);
+  };
+
+  const sortData = (key) => {
+    if (key === sortKey) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortOrder("asc");
+    }
+    const sortedUsers = [...users].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a[key] < b[key] ? -1 : 1;
+      } else {
+        return a[key] > b[key] ? -1 : 1;
+      }
+    });
+
+    setUsers(sortedUsers);
   };
 
   useEffect(() => {
@@ -44,7 +63,10 @@ const UserList = () => {
   return (
     <div>
       <div>
-        <h2 className="text-2xl font-semibold"> User List Table </h2>
+        <h2 className="text-2xl font-semibold text-gray-700 capitalize dark:text-white">
+          {" "}
+          User List Table{" "}
+        </h2>
         <div>
           <div className="mb-3 flex justify-end">
             <div className=" mb-4 flex w-4/12 flex-wrap items-stretch">
@@ -83,12 +105,12 @@ const UserList = () => {
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
-            <tr>
+            <tr className="text-md">
               <th></th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Gender</th>
-              <th>Phone</th>
+              <th onClick={() => sortData("name.first")}>Name</th>
+              <th onClick={() => sortData("email")}>Email</th>
+              <th onClick={() => sortData("gender")}>Gender</th>
+              <th onClick={() => sortData("phone")}>Phone</th>
             </tr>
           </thead>
           <tbody>
@@ -112,12 +134,12 @@ const UserList = () => {
           </tbody>
         </table>
       </div>
-      <div className="mx-auto">
+      <div className="text-end ">
         {Array.from({ length: Math.ceil(users.length / 10) }).map(
           (_, index) => (
             <button
               className={`btn btn-xs mx-2 ${
-                page === index + 1 ? "bg-primary" : "bg-white"
+                page === index + 1 ? "bg-blue-500 text-white" : "bg-white"
               }`}
               onClick={() => pagination(index + 1)}
               key={index}
