@@ -12,42 +12,26 @@ const Home = () => {
       {/* ================= NavBar=================== */}
       <header className="p-8 mx-auto w-full dark:bg-gray-800 dark:text-gray-100">
         <div className="container flex justify-center h-16 mx-auto">
-          <ul className="items-stretch hidden space-x-3 lg:flex">
+          <ul className="items-stretch  hidden space-x-3 lg:flex">
             <li className="flex">
-              <a
-                rel="noopener noreferrer"
-                href="#"
-                className="flex items-center px-4 -mb-1"
-              >
+              <h4 className="flex items-center px-4 -mb-1 text-stone-700	font-semibold">
                 Name: Mehedi Hasan Tonmoy
-              </a>
+              </h4>
             </li>
             <li className="flex">
-              <a
-                rel="noopener noreferrer"
-                href="#"
-                className="flex items-center px-4 -mb-1"
-              >
+              <h4 className="flex items-center px-4 -mb-1 text-stone-700	font-semibold">
                 Email: meheditonmoy917@gmail.com
-              </a>
+              </h4>
             </li>
             <li className="flex">
-              <a
-                rel="noopener noreferrer"
-                href="#"
-                className="flex items-center px-4 -mb-1"
-              >
+              <h4 className="flex items-center px-4 -mb-1 text-stone-700	font-semibold">
                 Address: Khilkhet,Dhaka-1229
-              </a>
+              </h4>
             </li>
             <li className="flex">
-              <a
-                rel="noopener noreferrer"
-                href="#"
-                className="flex items-center px-4 -mb-1"
-              >
+              <h4 className="flex items-center px-4 -mb-1 text-stone-700	font-semibold">
                 Phone: +8801966527486
-              </a>
+              </h4>
             </li>
           </ul>
         </div>
